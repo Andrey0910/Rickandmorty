@@ -1,0 +1,94 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.V21.Theme.Rickandmorty" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@android:color/black</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Base.Theme.Rickandmorty" parent="Base.V21.Theme.Rickandmorty" />
+
+    <style name="Theme.Rickandmorty" parent="Base.Theme.Rickandmorty" />
+
+    <!--    white theme text styles-->
+    <style name="TextAppearance.Rickandmorty.Light" parent="Base.V21.Theme.Rickandmorty">
+        <item name="fontFamily">@font/roboto_light</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:gravity">center_vertical|center</item>
+    </style>
+
+    <style name="TextAppearance.Rickandmorty.Normal" parent="Base.V21.Theme.Rickandmorty">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:gravity">center_vertical|center</item>
+    </style>
+
+    <style name="TextAppearance.Rickandmorty.Headlines5_medium" parent="Base.V21.Theme.Rickandmorty">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:gravity">center_vertical|center</item>
+    </style>
+
+    <style name="TextAppearance.Rickandmorty.Headlines5_bold" parent="Base.V21.Theme.Rickandmorty">
+        <item name="fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:gravity">center_vertical|center</item>
+    </style>
+
+    <style name="TextAppearance.Rickandmorty.Headlines6_black" parent="Base.V21.Theme.Rickandmorty">
+        <item name="fontFamily">@font/roboto_black</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center_vertical|center</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="TextAppearance.Rickandmorty.Subtitles1" parent="Base.V21.Theme.Rickandmorty">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center_vertical|center</item>
+        <item name="android:letterSpacing">0.15</item>
+    </style>
+
+    <style name="TextAppearance.Rickandmorty.Body2" parent="Base.V21.Theme.Rickandmorty">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center_vertical|center</item>
+        <item name="android:letterSpacing">0.25</item>
+    </style>
+
+    <style name="TextAppearance.Rickandmorty.Snackbar" parent="Base.V21.Theme.Rickandmorty">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center_vertical|center</item>
+        <item name="android:letterSpacing">0.5</item>
+    </style>
+
+    <style name="TextAppearance.Rickandmorty.Inter" parent="Base.V21.Theme.Rickandmorty">
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center_vertical|center</item>
+    </style>
+
+    <style name="TextAppearance.Rickandmorty.Roboto_black" parent="Base.V21.Theme.Rickandmorty">
+        <item name="fontFamily">@font/roboto_black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center_vertical|center</item>
+    </style>
+
+    <style name="TextAppearance.Rickandmorty.Grayscale500" parent="Base.V21.Theme.Rickandmorty">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:gravity">center_vertical|center</item>
+        <item name="android:letterSpacing">0.25</item>
+    </style>
+
+
+</resources>
