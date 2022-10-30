@@ -2,15 +2,13 @@ package com.example.rickandmorty.ui.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.example.rickandmorty.databinding.ActivitySplashBinding
-import com.example.rickandmorty.utils.NetworkConnectionManager
+import com.example.rickandmorty.ui.app_view_model.NavigationViewModel
+import com.example.rickandmorty.utils.cicerone.Screens.start
 import com.github.terrakok.cicerone.NavigatorHolder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
@@ -22,8 +20,7 @@ class SplashActivity : AppCompatActivity() {
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
 
-//    @Inject
-//    lateinit var networkConnectionManager: NetworkConnectionManager
+    private val navigationViewModel by viewModels<NavigationViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,20 +29,6 @@ class SplashActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        lifecycleScope.launchWhenCreated {
-            delay(2000)
-//            checkInternet()
-        }
+        navigationViewModel.onReplaceCommandClick(start())
     }
-
-//    fun checkInternet(){
-//        lifecycleScope.launchWhenCreated {
-//            networkConnectionManager.isNetworkConnectedFlow.collectLatest {
-//                delay(1000)
-//                if (it){
-//
-//                }
-//            }
-//        }
-//    }
 }

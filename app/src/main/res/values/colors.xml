@@ -8,7 +8,28 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <!--    main colors-->
+    <color name="status_bar_color">#FFFFFF</color>
+    <color name="main_background_color">#FFFFFF</color>
+    <color name="card_background_color">#FFFFFF</color>
+    <color name="fragment_background_color">#FFFFFF</color>
+    <color name="fragment_top_bar_background_color">#343538</color>
+    <color name="color_transparent">#00FFFFFF</color>
+
 <!--    splash-->
     <color name="splash_label_text">#FFFFFF</color>
+
+<!--    fragment main-->
+    <color name="main_title_text">#FFFFFF</color>
+    <color name="card_title_logo_text">#FFFFFF</color>
+    <color name="card_species_text">#807C87</color>
+    <color name="card_status_img_green">#00FF0A</color>
+    <color name="card_status_img_red">#FF0000</color>
+    <color name="card_status_img_grey">#888888</color>
+    <color name="card_status_text">#807C87</color>
+
+    <!--    divider colors-->
+    <color name="sheet_divider_color">#FFFFFF</color>
+
 
 </resources>
