@@ -37,7 +37,7 @@
             app:layout_constraintTop_toBottomOf="@id/title_text"
             app:layout_constraintBaseline_toBottomOf="parent"
             tools:itemCount="5"
-            tools:listitem="@layout/item_elements_list"/>
+            tools:listitem="@layout/item_characters_list"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
