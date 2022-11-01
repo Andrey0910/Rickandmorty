@@ -18,6 +18,16 @@
 
     <style name="Theme.Rickandmorty" parent="Base.Theme.Rickandmorty" />
 
+<!--    corner radius imagview-->
+    <style name="Style.App.circleImageView" parent="">
+        <item name="shapeAppearance">@style/ShapeAppearanceOverlay.App.circleImageView</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.circleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">24dp</item>
+    </style>
+
     <!--    white theme text styles-->
     <style name="TextAppearance.Rickandmorty.Light" parent="Base.V21.Theme.Rickandmorty">
         <item name="fontFamily">@font/roboto_light</item>
