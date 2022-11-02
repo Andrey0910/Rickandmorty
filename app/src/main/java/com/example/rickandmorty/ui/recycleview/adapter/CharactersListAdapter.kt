@@ -14,7 +14,7 @@ import com.example.rickandmorty.ui.recycleview.core.BaseViewHolder
 import com.example.rickandmorty.ui.recycleview.core.Item
 import com.example.rickandmorty.ui.recycleview.model.CharactersListDataModel
 
-class CharactersListAdapter (private val onItemClick: (CharactersListAdapter) -> Unit) :
+class CharactersListAdapter (private val onItemClick: (CharactersListDataModel) -> Unit) :
     BaseItem <ItemCharactersListBinding, CharactersListDataModel> {
 
     override fun isRelativeItem(item: Item) = item is CharactersListDataModel
