@@ -1,4 +1,4 @@
-package com.example.rickandmorty.ui.model
+package com.example.rickandmorty.ui.model.request_view_model
 
 import androidx.lifecycle.*
 import com.example.rickandmorty.Application
@@ -12,10 +12,8 @@ import com.example.rickandmorty.utils.SingleEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
 import javax.inject.Inject
 
 @HiltViewModel
