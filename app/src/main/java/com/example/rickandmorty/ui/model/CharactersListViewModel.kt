@@ -39,10 +39,11 @@ class CharactersListViewModel @Inject constructor(
     val adapterDataView: LiveData<ArrayList<Item>> = adapterData
 
     private val data = arrayListOf<Item>()
-    private var sharedData: ArrayList<CharactersListDataModel> = Preferences.get("ALL_CHARACTERS_DATA")
+    private var sharedData: ArrayList<CharactersListDataModel> =
+        Preferences.get("ALL_CHARACTERS_DATA")
 
     init {
-        if (!sharedData.isNullOrEmpty()){
+        if (!sharedData.isNullOrEmpty()) {
             charactersList()
         } else {
             viewModelScope.launch(Dispatchers.IO) {
@@ -54,19 +55,32 @@ class CharactersListViewModel @Inject constructor(
     }
 
     private fun charactersList() {
+
         viewModelScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
-                repository.getCharacters().collect {
-                    values -> response.value = values
+                repository.getCharacters().collect { values ->
+                    response.value = values
                 }
 
                 sharedData = Preferences.get("ALL_CHARACTERS_DATA")
 
                 when (response.value as NetworkResult) {
+
                     is NetworkResult.Success<*> -> {
+
                         response.value?.let {
+
                             data.clear()
+
                             it.data?.results?.forEach { item ->
+
+                                var isFavorite = false
+
+                                sharedData.filter { value -> value.id == item.id }
+                                    .map { mapValue ->
+                                        isFavorite = mapValue.favorite
+                                    }
+
                                 data.add(
                                     CharactersListDataModel(
                                         id = item.id,
@@ -75,7 +89,8 @@ class CharactersListViewModel @Inject constructor(
                                         species = item.species,
                                         type = item.type,
                                         gender = item.gender,
-                                        image = item.image
+                                        image = item.image,
+                                        favorite = isFavorite
                                     )
                                 )
                             }
@@ -85,6 +100,7 @@ class CharactersListViewModel @Inject constructor(
                         }
                     }
                     is NetworkResult.Error<*> -> {
+
                         response.value?.let {
                             when (it.message.toString()) {
 
@@ -100,6 +116,55 @@ class CharactersListViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun updateRecycler() {
+
+        sharedData = Preferences.get("ALL_CHARACTERS_DATA")
+
+        val convertSharedData = arrayListOf<Item>()
+        sharedData.let {
+            it.forEach { value ->
+                convertSharedData.add(
+                    CharactersListDataModel(
+                        id = value.id,
+                        name = value.name,
+                        status = value.status,
+                        species = value.species,
+                        type = value.type,
+                        gender = value.gender,
+                        image = value.image,
+                        favorite = value.favorite
+                    )
+                )
+            }
+        }
+
+        adapterData.value = convertSharedData
+    }
+
+    private fun updateShareData(item: CharactersListDataModel) {
+
+        sharedData = Preferences.get("ALL_CHARACTERS_DATA")
+
+        if (!sharedData.isNullOrEmpty()) {
+            sharedData.forEachIndexed { index, id ->
+                id.takeIf { it.id == item.id }.let {
+                    sharedData.let {
+                        it[index] = item.copy(favorite = true)
+                    }
+                }
+            }
+
+            Preferences.put(sharedData, "ALL_CHARACTERS_DATA")
+
+            updateRecycler()
+        }
+    }
+
+    fun updateCharactersList() {
+        stateLoading.value = SingleEvent(true)
+        charactersList()
     }
 
 }

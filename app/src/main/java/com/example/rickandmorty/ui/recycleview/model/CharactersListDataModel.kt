@@ -9,5 +9,6 @@ data class CharactersListDataModel(
     val species: String,
     val type: String,
     val gender: String,
-    val image: String
+    val image: String,
+    val favorite: Boolean
 ) : Item
