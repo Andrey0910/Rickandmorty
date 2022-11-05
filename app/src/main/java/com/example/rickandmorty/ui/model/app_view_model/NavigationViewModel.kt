@@ -1,4 +1,4 @@
-package com.example.rickandmorty.ui.app_view_model
+package com.example.rickandmorty.ui.model.app_view_model
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

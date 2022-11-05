@@ -8,6 +8,10 @@
         <variable
             name="charactersListViewModel"
             type="com.example.rickandmorty.ui.model.request_view_model.CharactersListViewModel" />
+
+        <variable
+            name="adapter"
+            type="com.example.rickandmorty.ui.recycleview.core.BaseAdapter" />
         
     </data>
 
