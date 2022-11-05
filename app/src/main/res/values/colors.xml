@@ -31,5 +31,9 @@
     <!--    divider colors-->
     <color name="sheet_divider_color">#FFFFFF</color>
 
+    <!--    spinner для обновления списков-->
+    <color name="swipe_refresh_background_color">#3B3C40</color>
+    <color name="swipe_refresh_load_color">#FFFFFF</color>
+
 
 </resources>

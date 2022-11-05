@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.rickandmorty.R
 import com.example.rickandmorty.data.model.characters.CharactersList
 import com.example.rickandmorty.databinding.FragmentMainBinding
 import com.example.rickandmorty.ui.model.app_view_model.NavigationViewModel
+import com.example.rickandmorty.ui.model.app_view_model.ScrollViewModel
 import com.example.rickandmorty.ui.model.request_view_model.CharactersListViewModel
 import com.example.rickandmorty.ui.recycleview.adapter.CharactersListAdapter
 import com.example.rickandmorty.ui.recycleview.core.BaseAdapter
@@ -29,6 +31,7 @@ class MainFragment : Fragment(), BackButtonListener {
 
     private val navigationViewModel by viewModels<NavigationViewModel>()
     private val charactersListViewModel by viewModels<CharactersListViewModel>()
+    private val scrollViewModel by activityViewModels<ScrollViewModel>()
 
     companion object {
         fun newInstance(): MainFragment {
@@ -65,10 +68,46 @@ class MainFragment : Fragment(), BackButtonListener {
                 )
             )
         }
+
+        // старт загрузки данных с сервера
+        charactersListViewModel.stateLoadingView.observe(viewLifecycleOwner) {
+            it.getContentIfNotHandled()?.let {
+                binding.swipeRefresh.isRefreshing = true
+            }
+        }
+
+        // загрузка прошла успешно
+        charactersListViewModel.stateSuccessView.observe(viewLifecycleOwner) {
+            it.getContentIfNotHandled()?.let {
+                binding.swipeRefresh.isRefreshing = false
+            }
+        }
+
+        charactersListViewModel.adapterDataView.observe(viewLifecycleOwner) {
+            adapter.submitList(it.toList())
+        }
+
+        // принудительное обновление списка адаптера
+        binding.swipeRefresh.setOnRefreshListener {
+            charactersListViewModel.updateCharactersList()
+        }
+
+        // прокручиваем адаптер на сохраненное положение
+        scrollViewModel.recycleItemPositionView.observe(viewLifecycleOwner) {
+            binding.recycler.layoutManager?.onRestoreInstanceState(it)
+        }
     }
 
     private fun onCharactersClick(newItem: CharactersListDataModel) {
         TODO("Not yet implemented")
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        binding.swipeRefresh.isRefreshing = false
+        binding.recycler.layoutManager?.onSaveInstanceState()
+            ?.let { scrollViewModel.saveRecycleItemPosition(it) }
     }
 
     override fun onBackPressed(): Boolean {
