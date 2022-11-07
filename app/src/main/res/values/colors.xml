@@ -22,6 +22,7 @@
 <!--    fragment main-->
     <color name="main_title_text">#FFFFFF</color>
     <color name="card_title_logo_text">#FFFFFF</color>
+    <color name="card_image_logo_background_color">#FF0000</color>
     <color name="card_species_text">#807C87</color>
     <color name="card_status_img_green">#00FF0A</color>
     <color name="card_status_img_red">#FF0000</color>

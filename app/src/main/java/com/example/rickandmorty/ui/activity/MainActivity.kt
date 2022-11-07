@@ -9,8 +9,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.ActivityMainBinding
+import com.example.rickandmorty.ui.model.app_view_model.NavigationViewModel
 import com.example.rickandmorty.ui.model.request_view_model.CharactersListViewModel
 import com.example.rickandmorty.utils.NetworkConnectionManager
+import com.example.rickandmorty.utils.cicerone.Screens.main
 import com.github.terrakok.cicerone.NavigatorHolder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -29,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var networkConnectionManager: NetworkConnectionManager
 
+    private val navigationViewModel by viewModels<NavigationViewModel>()
 
     private val charactersListViewModel by viewModels<CharactersListViewModel>()
 
@@ -36,14 +39,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        binding.clRoot.setBackgroundColor(Color.RED)
-
-
         lifecycleScope.launchWhenCreated {
             repeatOnLifecycle(Lifecycle.State.RESUMED){
                 networkConnectionManager.isNetworkConnectedFlow.collectLatest {
                     delay(3000)
                     Timber.tag("network status").d(it.toString())
+                    navigationViewModel.onReplaceCommandClick(main())
 //                    binding.llNoInternet.isVisible = !it
                 }
             }

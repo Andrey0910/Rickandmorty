@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.rickandmorty.databinding.ActivitySplashBinding
 import com.example.rickandmorty.ui.model.app_view_model.NavigationViewModel
 import com.example.rickandmorty.utils.cicerone.Screens.start
 import com.github.terrakok.cicerone.NavigatorHolder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
@@ -29,6 +31,10 @@ class SplashActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        navigationViewModel.onReplaceCommandClick(start())
+        lifecycleScope.launchWhenCreated {
+            delay(1000)
+            navigationViewModel.onReplaceCommandClick(start())
+        }
+
     }
 }
