@@ -76,12 +76,10 @@ class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -
             super.onBind(item)
 
             with(binding) {
-                Timber.tag(TAG)
-                    .i("==========" + titleLogo.context.getString(R.string.card_title_species_text))
+                Timber.tag(TAG).i("==========" + titleLogo.context.getString(R.string.card_title_species_text))
                 titleLogo.text = item.name
-//                speciesText.text = (speciesText.context.getString(R.string.card_title_species_text) + " " + item.species)
                 speciesText.setCustomText(R.string.card_title_species_text, item.species)
-                statusText.text = (statusText.context.getString(R.string.card_title_species_text) + " " + item.status)
+                statusText.setCustomText(R.string.card_title_status_text, item.status)
 
                 Glide.with(imageLogo.context)
                     .load(Uri.parse(item.image))

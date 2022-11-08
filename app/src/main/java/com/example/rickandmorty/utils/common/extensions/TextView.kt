@@ -7,5 +7,5 @@ fun TextView.setCustomText(value: Int){
 }
 
 fun TextView.setCustomText(value: Int, additionalValue: String){
-    setText(context.getString(value)+ " " + additionalValue)
+    setText(context.getString(value) + " " + additionalValue)
 }
