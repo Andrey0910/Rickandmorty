@@ -1,16 +1,25 @@
 package com.example.rickandmorty.ui.activity
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
+import android.nfc.Tag
 import android.os.Bundle
+import android.util.Log
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.ActivitySplashBinding
 import com.example.rickandmorty.ui.model.app_view_model.NavigationViewModel
 import com.example.rickandmorty.utils.cicerone.Screens.start
+import com.github.terrakok.cicerone.Command
+import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
+import com.github.terrakok.cicerone.androidx.AppNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import timber.log.Timber
 import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
@@ -24,6 +33,15 @@ class SplashActivity : AppCompatActivity() {
 
     private val navigationViewModel by viewModels<NavigationViewModel>()
 
+    private val navigator: Navigator = object : AppNavigator(this, R.id.splash_container) {
+
+        override fun applyCommands(commands: Array<out Command>) {
+            super.applyCommands(commands)
+            supportFragmentManager.executePendingTransactions()
+        }
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,9 +50,20 @@ class SplashActivity : AppCompatActivity() {
         setContentView(view)
 
         lifecycleScope.launchWhenCreated {
+            Timber.tag("splashActivity").d("===========")
             delay(1000)
             navigationViewModel.onReplaceCommandClick(start())
         }
 
+    }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        navigatorHolder.setNavigator(navigator)
+    }
+
+    override fun onPause() {
+        navigatorHolder.removeNavigator()
+        super.onPause()
     }
 }

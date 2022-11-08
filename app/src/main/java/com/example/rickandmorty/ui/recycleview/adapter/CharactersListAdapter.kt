@@ -1,8 +1,11 @@
 package com.example.rickandmorty.ui.recycleview.adapter
 
+import android.content.ContentValues.TAG
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -12,6 +15,10 @@ import com.example.rickandmorty.ui.recycleview.core.BaseItem
 import com.example.rickandmorty.ui.recycleview.core.BaseViewHolder
 import com.example.rickandmorty.ui.recycleview.core.Item
 import com.example.rickandmorty.ui.recycleview.model.CharactersListDataModel
+import com.example.rickandmorty.utils.Constants.STATUS_ALIVE
+import com.example.rickandmorty.utils.Constants.STATUS_DEAD
+import com.example.rickandmorty.utils.common.extensions.setCustomText
+import timber.log.Timber
 
 class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -> Unit) :
     BaseItem<ItemCharactersListBinding, CharactersListDataModel> {
@@ -69,10 +76,12 @@ class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -
             super.onBind(item)
 
             with(binding) {
-
+                Timber.tag(TAG)
+                    .i("==========" + titleLogo.context.getString(R.string.card_title_species_text))
                 titleLogo.text = item.name
-                speciesText.text = item.species
-                statusText.text = item.status
+//                speciesText.text = (speciesText.context.getString(R.string.card_title_species_text) + " " + item.species)
+                speciesText.setCustomText(R.string.card_title_species_text, item.species)
+                statusText.text = (statusText.context.getString(R.string.card_title_species_text) + " " + item.status)
 
                 Glide.with(imageLogo.context)
                     .load(Uri.parse(item.image))
@@ -83,6 +92,16 @@ class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -
                 } else {
                     iconFavorite.setImageResource(R.drawable.ic_favorite_black)
                 }
+
+                imgStatus.imageTintList =
+                    ContextCompat.getColorStateList(
+                        imgStatus.context,
+                        when (item.status) {
+                            STATUS_ALIVE -> R.color.card_status_img_green
+                            STATUS_DEAD -> R.color.card_status_img_red
+                            else -> R.color.card_status_img_grey
+                        }
+                    )
             }
         }
 

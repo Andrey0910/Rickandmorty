@@ -52,7 +52,7 @@ object Preferences {
         return preferences.getInt(key, 999)
     }
 
-    inline fun <reified T : Any> get(key: String): ArrayList<T> {
+    inline fun <reified T : Any> get(key: String): ArrayList<T>? {
         val value = preferences.getString(key, "")
         val listType: Type = object : TypeToken<ArrayList<T>>() {}.type
         return Gson().fromJson(value, listType)

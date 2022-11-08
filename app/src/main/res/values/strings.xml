@@ -8,6 +8,8 @@
     <string name="main_title_text">The Rick and Morty</string>
     <string name="card_title_logo_text">Rick Sanchez</string>
     <string name="card_species_text">Species - Human</string>
+    <string name="card_title_species_text">Species -</string>
     <string name="card_status_text">Status - Alive</string>
+    <string name="card_title_status_text">Status -</string>
 
 </resources>

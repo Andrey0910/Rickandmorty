@@ -1,5 +1,7 @@
 package com.example.rickandmorty.ui.model.request_view_model
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.rickandmorty.Application
 import com.example.rickandmorty.data.api.Repository
@@ -37,14 +39,14 @@ class CharactersListViewModel @Inject constructor(
     val adapterDataView: LiveData<ArrayList<Item>> = adapterData
 
     private val data = arrayListOf<Item>()
-    private var sharedData: ArrayList<CharactersListDataModel> =
+    private var sharedData: ArrayList<CharactersListDataModel>? =
         Preferences.get("ALL_CHARACTERS_DATA")
 
     init {
         if (!sharedData.isNullOrEmpty()) {
             charactersList()
         } else {
-            viewModelScope.launch(Dispatchers.IO) {
+            viewModelScope.launch {
                 stateLoading.value = SingleEvent(true)
                 delay(500)
                 charactersList()
@@ -53,7 +55,6 @@ class CharactersListViewModel @Inject constructor(
     }
 
     private fun charactersList() {
-
         viewModelScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
                 repository.getCharacters().collect { values ->
@@ -74,8 +75,8 @@ class CharactersListViewModel @Inject constructor(
 
                                 var isFavorite = false
 
-                                sharedData.filter { value -> value.id == item.id }
-                                    .map { mapValue ->
+                                sharedData?.filter { value -> value.id == item.id }
+                                    ?.map { mapValue ->
                                         isFavorite = mapValue.favorite
                                     }
 
@@ -122,7 +123,7 @@ class CharactersListViewModel @Inject constructor(
 
         val convertSharedData = arrayListOf<Item>()
         sharedData.let {
-            it.forEach { value ->
+            it?.forEach { value ->
                 convertSharedData.add(
                     CharactersListDataModel(
                         id = value.id,
@@ -146,9 +147,9 @@ class CharactersListViewModel @Inject constructor(
         sharedData = Preferences.get("ALL_CHARACTERS_DATA")
 
         if (!sharedData.isNullOrEmpty()) {
-            sharedData.forEachIndexed { index, id ->
+            sharedData?.forEachIndexed { index, id ->
                 id.takeIf { it.id == item.id }.let {
-                    sharedData.let {
+                    sharedData?.let {
                         it[index] = item.copy(favorite = true)
                     }
                 }
