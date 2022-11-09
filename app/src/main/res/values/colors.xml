@@ -29,8 +29,8 @@
     <color name="card_status_img_grey">#888888</color>
     <color name="card_status_text">#807C87</color>
 
-    <!--    divider colors-->
-    <color name="sheet_divider_color">#FFFFFF</color>
+    <!--    divider colors 20%-->
+    <color name="sheet_divider_color">#33FFFFFF</color>
 
     <!--    spinner для обновления списков-->
     <color name="swipe_refresh_background_color">#3B3C40</color>

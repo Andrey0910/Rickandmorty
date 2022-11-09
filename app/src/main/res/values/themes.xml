@@ -57,28 +57,29 @@
         <item name="fontFamily">@font/roboto_black</item>
         <item name="android:textSize">20sp</item>
         <item name="android:gravity">center_vertical|center</item>
-        <item name="android:letterSpacing">0.15</item>
+        <item name="android:letterSpacing">0.015</item>
     </style>
 
     <style name="TextAppearance.Rickandmorty.Subtitles1" parent="Base.V21.Theme.Rickandmorty">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">16sp</item>
+        <item name="android:top">12dp</item>
         <item name="android:gravity">center_vertical|center</item>
-        <item name="android:letterSpacing">0.15</item>
+        <item name="android:letterSpacing">0.015</item>
     </style>
 
     <style name="TextAppearance.Rickandmorty.Body2" parent="Base.V21.Theme.Rickandmorty">
         <item name="fontFamily">@font/roboto</item>
         <item name="android:textSize">14sp</item>
         <item name="android:gravity">center_vertical|center</item>
-        <item name="android:letterSpacing">0.25</item>
+        <item name="android:letterSpacing">0.025</item>
     </style>
 
     <style name="TextAppearance.Rickandmorty.Snackbar" parent="Base.V21.Theme.Rickandmorty">
         <item name="fontFamily">@font/roboto_medium</item>
         <item name="android:textSize">16sp</item>
         <item name="android:gravity">center_vertical|center</item>
-        <item name="android:letterSpacing">0.5</item>
+        <item name="android:letterSpacing">0.05</item>
     </style>
 
     <style name="TextAppearance.Rickandmorty.Inter" parent="Base.V21.Theme.Rickandmorty">
@@ -97,7 +98,7 @@
         <item name="fontFamily">@font/roboto</item>
         <item name="android:textSize">13sp</item>
         <item name="android:gravity">center_vertical|center</item>
-        <item name="android:letterSpacing">0.25</item>
+        <item name="android:letterSpacing">0.025</item>
     </style>
 
 

@@ -5,36 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/background_color_gradient"
-    android:clickable="true">
+    android:clickable="true"
+    android:focusable="true">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image_logo"
+        style="@style/Style.App.circleImageView"
         android:layout_width="110dp"
         android:layout_height="110dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
-        style="@style/Style.App.circleImageView"
         android:background="@color/card_image_logo_background_color"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/title_logo"
         style="@style/TextAppearance.Rickandmorty.Subtitles1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="4dp"
+        android:gravity="start"
         android:text="@string/card_title_logo_text"
         android:textColor="@color/card_title_logo_text"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/icon_favorite"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/image_logo"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/icon_favorite"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="18dp"
         android:src="@drawable/ic_favorite_black"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,49 +49,61 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/species_text"
         style="@style/TextAppearance.Rickandmorty.Body2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="start"
         android:text="@string/card_species_text"
         android:textColor="@color/card_species_text"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toTopOf="@id/status_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/image_logo"
-        app:layout_constraintTop_toBottomOf="@id/title_logo" />
+        app:layout_constraintTop_toBottomOf="@+id/title_logo" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/img_status"
         android:layout_width="8dp"
         android:layout_height="8dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="14dp"
         android:src="@drawable/img_status"
         android:tint="@color/card_status_img_green"
+        app:layout_constraintBottom_toBottomOf="@+id/status_text"
         app:layout_constraintStart_toEndOf="@id/image_logo"
-        app:layout_constraintTop_toBottomOf="@id/species_text" />
+        app:layout_constraintTop_toTopOf="@id/status_text" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/status_text"
         style="@style/TextAppearance.Rickandmorty.Body2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:gravity="start"
         android:text="@string/card_status_text"
         android:textColor="@color/card_status_text"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toTopOf="@id/iv_divider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/img_status"
-        app:layout_constraintTop_toBottomOf="@id/species_text" />
+        app:layout_constraintTop_toBottomOf="@+id/species_text" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_divider"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         android:background="@color/sheet_divider_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_logo" />
+        app:layout_constraintTop_toBottomOf="@id/status_text"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
