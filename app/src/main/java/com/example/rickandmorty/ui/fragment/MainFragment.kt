@@ -103,15 +103,8 @@ class MainFragment : Fragment(), BackButtonListener {
         TODO("Not yet implemented")
     }
 
-    override fun onPause() {
-        super.onPause()
-
-        binding.swipeRefresh.isRefreshing = false
-        binding.recycler.layoutManager?.onSaveInstanceState()
-            ?.let { scrollViewModel.saveRecycleItemPosition(it) }
-    }
-
     override fun onBackPressed(): Boolean {
-        TODO("Not yet implemented")
+        navigationViewModel.onBackCommandClick()
+        return true
     }
 }
