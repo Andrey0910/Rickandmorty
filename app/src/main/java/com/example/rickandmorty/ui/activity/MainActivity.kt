@@ -15,6 +15,7 @@ import com.example.rickandmorty.databinding.ActivitySplashBinding
 import com.example.rickandmorty.ui.model.app_view_model.NavigationViewModel
 import com.example.rickandmorty.ui.model.request_view_model.CharactersListViewModel
 import com.example.rickandmorty.utils.NetworkConnectionManager
+import com.example.rickandmorty.utils.Preferences
 import com.example.rickandmorty.utils.cicerone.Screens.main
 import com.github.terrakok.cicerone.Command
 import com.github.terrakok.cicerone.Navigator
@@ -61,7 +62,6 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launchWhenCreated {
             repeatOnLifecycle(Lifecycle.State.RESUMED){
                 networkConnectionManager.isNetworkConnectedFlow.collectLatest {
-//                    delay(3000)
                     Timber.tag("network status").d(it.toString())
                     navigationViewModel.onReplaceCommandClick(main())
                 }
@@ -78,4 +78,5 @@ class MainActivity : AppCompatActivity() {
         navigatorHolder.removeNavigator()
         super.onPause()
     }
+
 }

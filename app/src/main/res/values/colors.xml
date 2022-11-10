@@ -36,5 +36,12 @@
     <color name="swipe_refresh_background_color">#3B3C40</color>
     <color name="swipe_refresh_load_color">#FFFFFF</color>
 
+<!--    fragment characte-->
+    <color name="character_title_logo_text">#FFFFFF</color>
+    <color name="character_background_status">#1AFFFFFF</color>
+    <color name="character_status_text">#FFFFFF</color>
+    <color name="character_image_logo_background_color">#FF0000</color>
+    <color name="character_info_text">#8247E5</color>
+
 
 </resources>
