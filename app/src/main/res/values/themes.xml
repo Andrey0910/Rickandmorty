@@ -98,13 +98,14 @@
     <style name="TextAppearance.Rickandmorty.Roboto_black" parent="Base.V21.Theme.Rickandmorty">
         <item name="fontFamily">@font/roboto_black</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:gravity">center_vertical|center</item>
+        <item name="android:gravity">center_vertical|start</item>
+        <item name="android:letterSpacing">0.15</item>
     </style>
 
-    <style name="TextAppearance.Rickandmorty.Grayscale500" parent="Base.V21.Theme.Rickandmorty">
+    <style name="TextAppearance.Rickandmorty.Roboto_normal_13" parent="Base.V21.Theme.Rickandmorty">
         <item name="fontFamily">@font/roboto</item>
         <item name="android:textSize">13sp</item>
-        <item name="android:gravity">center_vertical|center</item>
+        <item name="android:gravity">center_vertical|start</item>
         <item name="android:letterSpacing">0.025</item>
     </style>
 

@@ -13,8 +13,18 @@
     <string name="card_title_status_text">Status -</string>
 
 <!--    fragrmnt character-->
-    <string name="character_title_logo_text">Rick Sanchez</string>
-    <string name="character_status_text">Status - Alive</string>
+    <string name="character_title_logo_text">Amish Cyborg</string>
+    <string name="character_status_text">Status - Dead</string>
     <string name="character_info_text">Character info:</string>
+    <string name="character_name_title_text">Name:</string>
+    <string name="character_name_text">Amish Cyborg</string>
+    <string name="character_species_title_text">Species:</string>
+    <string name="character_species_text">Alien</string>
+    <string name="character_type_title_text">Type:</string>
+    <string name="character_type_text">Parasite</string>
+    <string name="character_gender_title_text">Gender:</string>
+    <string name="character_gender_text">Male</string>
+    <string name="character_location_title_text">Last known location:</string>
+    <string name="character_location_text">Earth (Replacement Dimension)</string>
 
 </resources>
