@@ -25,6 +25,7 @@ import com.example.rickandmorty.utils.common.extensions.insetterRecyclerBottom
 import com.example.rickandmorty.utils.common.extensions.px
 import com.example.rickandmorty.utils.nullOnDestroy
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.rickandmorty.utils.cicerone.Screens.characterItem
 
 @AndroidEntryPoint
 class MainFragment : Fragment(), BackButtonListener {
@@ -100,7 +101,20 @@ class MainFragment : Fragment(), BackButtonListener {
     }
 
     private fun onCharactersClick(newItem: CharactersListDataModel) {
-        TODO("Not yet implemented")
+        navigationViewModel.onForwardCommandClick(
+            characterItem(
+                CharacterItemDataModel(
+                    id = newItem.id,
+                    name = newItem.name,
+                    status = newItem.status,
+                    species = newItem.species,
+                    type = newItem.type,
+                    gender = newItem.gender,
+                    image = newItem.image,
+                    name_location = newItem.name_location
+                )
+            )
+        )
     }
 
     override fun onBackPressed(): Boolean {

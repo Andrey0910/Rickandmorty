@@ -1,8 +1,6 @@
-package com.example.rickandmorty.ui.recycleview.model
+package com.example.rickandmorty.ui.fragment
 
-import com.example.rickandmorty.ui.recycleview.core.Item
-
-data class CharactersListDataModel(
+data class CharacterItemDataModel(
     val id: Int,
     val name: String,
     val status: String,
@@ -10,6 +8,5 @@ data class CharactersListDataModel(
     val type: String,
     val gender: String,
     val image: String,
-    val favorite: Boolean,
     val name_location: String
-) : Item
+)

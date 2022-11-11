@@ -89,7 +89,8 @@ class CharactersListViewModel @Inject constructor(
                                         type = item.type,
                                         gender = item.gender,
                                         image = item.image,
-                                        favorite = isFavorite
+                                        favorite = isFavorite,
+                                        name_location = item.location.name
                                     )
                                 )
                             }
@@ -133,7 +134,8 @@ class CharactersListViewModel @Inject constructor(
                         type = value.type,
                         gender = value.gender,
                         image = value.image,
-                        favorite = value.favorite
+                        favorite = value.favorite,
+                        name_location = value.name_location
                     )
                 )
             }

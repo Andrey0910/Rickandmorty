@@ -15,6 +15,7 @@
 <!--    fragrmnt character-->
     <string name="character_title_logo_text">Amish Cyborg</string>
     <string name="character_status_text">Status - Dead</string>
+    <string name="character_title_status_text">Status -</string>
     <string name="character_info_text">Character info:</string>
     <string name="character_name_title_text">Name:</string>
     <string name="character_name_text">Amish Cyborg</string>
