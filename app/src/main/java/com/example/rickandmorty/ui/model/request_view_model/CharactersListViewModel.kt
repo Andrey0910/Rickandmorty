@@ -44,8 +44,10 @@ class CharactersListViewModel @Inject constructor(
 
     init {
         if (!sharedData.isNullOrEmpty()) {
+            Log.i(TAG, "AAA CharactersListViewModel - init1")
             charactersList()
         } else {
+            Log.i(TAG, "AAA CharactersListViewModel - init2")
             viewModelScope.launch {
                 stateLoading.value = SingleEvent(true)
                 delay(500)
@@ -55,6 +57,7 @@ class CharactersListViewModel @Inject constructor(
     }
 
     private fun charactersList() {
+        Log.i(TAG, "AAA CharactersListViewModel - charactersList")
         viewModelScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
                 repository.getCharacters().collect { values ->
@@ -66,7 +69,7 @@ class CharactersListViewModel @Inject constructor(
                 when (response.value as NetworkResult) {
 
                     is NetworkResult.Success<*> -> {
-
+                        Log.i(TAG, "AAA CharactersListViewModel - charactersList - Success")
                         response.value?.let {
 
                             data.clear()
@@ -96,6 +99,7 @@ class CharactersListViewModel @Inject constructor(
                             }
                             adapterData.value = data
                             Preferences.put(data, "ALL_CHARACTERS_DATA")
+                            Log.i(TAG, "AAA CharactersListViewModel - charactersList - Preferences.put")
                             stateSuccess.value = SingleEvent(true)
                         }
                     }
@@ -119,7 +123,7 @@ class CharactersListViewModel @Inject constructor(
     }
 
     private fun updateRecycler() {
-
+        Log.i(TAG, "AAA CharactersListViewModel - updateRecycler")
         sharedData = Preferences.get("ALL_CHARACTERS_DATA")
 
         val convertSharedData = arrayListOf<Item>()
@@ -145,7 +149,7 @@ class CharactersListViewModel @Inject constructor(
     }
 
     private fun updateShareData(item: CharactersListDataModel) {
-
+        Log.i(TAG, "AAA CharactersListViewModel - updateRecycler")
         sharedData = Preferences.get("ALL_CHARACTERS_DATA")
 
         if (!sharedData.isNullOrEmpty()) {
@@ -164,6 +168,7 @@ class CharactersListViewModel @Inject constructor(
     }
 
     fun updateCharactersList() {
+        Log.i(TAG, "AAA CharactersListViewModel - updateCharactersList")
         stateLoading.value = SingleEvent(true)
         charactersList()
     }

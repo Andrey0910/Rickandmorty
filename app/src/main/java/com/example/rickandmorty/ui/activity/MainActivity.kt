@@ -5,6 +5,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +15,7 @@ import com.example.rickandmorty.databinding.ActivityMainBinding
 import com.example.rickandmorty.databinding.ActivitySplashBinding
 import com.example.rickandmorty.ui.model.app_view_model.NavigationViewModel
 import com.example.rickandmorty.ui.model.request_view_model.CharactersListViewModel
+import com.example.rickandmorty.utils.BackButtonListener
 import com.example.rickandmorty.utils.NetworkConnectionManager
 import com.example.rickandmorty.utils.Preferences
 import com.example.rickandmorty.utils.cicerone.Screens.main
@@ -54,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Log.i(TAG, "AAA mainActibity - onCreate")
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
@@ -63,6 +65,7 @@ class MainActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.RESUMED){
                 networkConnectionManager.isNetworkConnectedFlow.collectLatest {
                     Timber.tag("network status").d(it.toString())
+                    Log.i(TAG, "AAA mainActibity - network status")
                     navigationViewModel.onReplaceCommandClick(main())
                 }
             }
@@ -71,10 +74,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResumeFragments() {
         super.onResumeFragments()
+        Log.i(TAG, "AAA mainActibity - onResumeFragments")
         navigatorHolder.setNavigator(navigator)
     }
 
     override fun onPause() {
+        Log.i(TAG, "AAA mainActibity - onPause")
         navigatorHolder.removeNavigator()
         super.onPause()
     }

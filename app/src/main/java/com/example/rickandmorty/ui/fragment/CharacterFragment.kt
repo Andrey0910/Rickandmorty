@@ -77,6 +77,10 @@ class CharacterFragment : Fragment(), BackButtonListener  {
             textGender.text = newItem.gender
             textLocation.text = newItem.name_location
         }
+
+        binding.buttonBack.setOnClickListener() {
+            navigationViewModel.onBackCommandClick()
+        }
     }
 
     override fun onBackPressed(): Boolean {

@@ -47,6 +47,7 @@ class MainFragment : Fragment(), BackButtonListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.i(TAG, "AAA mainFragment - onCreateView")
         binding = FragmentMainBinding.inflate(inflater, container, false)
         binding.charactersListViewModel = charactersListViewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -57,7 +58,7 @@ class MainFragment : Fragment(), BackButtonListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.recycler.insetterRecyclerBottom()
-
+        Log.i(TAG, "AAA mainFragment - onViewCreated")
         val adapter = BaseAdapter(listOf(CharactersListAdapter(::onCharactersClick)))
 
         lifecycleScope.launchWhenCreated {
@@ -74,6 +75,7 @@ class MainFragment : Fragment(), BackButtonListener {
         // старт загрузки данных с сервера
         charactersListViewModel.stateLoadingView.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let {
+                Log.i(TAG, "AAA mainFragment - Loading")
                 binding.swipeRefresh.isRefreshing = true
             }
         }
@@ -81,11 +83,13 @@ class MainFragment : Fragment(), BackButtonListener {
         // загрузка прошла успешно
         charactersListViewModel.stateSuccessView.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let {
+                Log.i(TAG, "AAA mainFragment - Success")
                 binding.swipeRefresh.isRefreshing = false
             }
         }
 
         charactersListViewModel.adapterDataView.observe(viewLifecycleOwner) {
+            Log.i(TAG, "AAA mainFragment - adapter")
             adapter.submitList(it.toList())
         }
 
@@ -96,11 +100,13 @@ class MainFragment : Fragment(), BackButtonListener {
 
         // прокручиваем адаптер на сохраненное положение
         scrollViewModel.recycleItemPositionView.observe(viewLifecycleOwner) {
+            Log.i(TAG, "AAA mainFragment - recycleItemPosition")
             binding.recycler.layoutManager?.onRestoreInstanceState(it)
         }
     }
 
     private fun onCharactersClick(newItem: CharactersListDataModel) {
+        Log.i(TAG, "AAA mainFragment - onCharactersClick")
         navigationViewModel.onForwardCommandClick(
             characterItem(
                 CharacterItemDataModel(
@@ -118,6 +124,7 @@ class MainFragment : Fragment(), BackButtonListener {
     }
 
     override fun onBackPressed(): Boolean {
+        Log.i(TAG, "AAA mainFragment - onBackPressed")
         navigationViewModel.onBackCommandClick()
         return true
     }
