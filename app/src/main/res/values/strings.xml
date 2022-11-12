@@ -28,4 +28,8 @@
     <string name="character_location_title_text">Last known location:</string>
     <string name="character_location_text">Earth (Replacement Dimension)</string>
 
+<!--    network status-->
+
+    <string name="network_error_text">Server connection error</string>
+
 </resources>

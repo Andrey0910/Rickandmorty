@@ -53,5 +53,9 @@
     <color name="character_location_title_text">#FFFFFF</color>
     <color name="character_location_text">#A3A3A3</color>
 
+<!--    SnackBar-->
+
+    <color name="snack_bar">#A3A3A3</color>
+
 
 </resources>

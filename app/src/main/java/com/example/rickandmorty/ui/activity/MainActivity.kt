@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.ActivityMainBinding
 import com.example.rickandmorty.ui.model.app_view_model.NavigationViewModel
@@ -14,7 +17,11 @@ import com.github.terrakok.cicerone.Command
 import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.androidx.AppNavigator
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -46,17 +53,29 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        navigationViewModel.onForwardCommandClick(main())
+        checkInternet()
+    }
 
-//        lifecycleScope.launchWhenCreated {
-//            repeatOnLifecycle(Lifecycle.State.RESUMED){
-//                networkConnectionManager.isNetworkConnectedFlow.collectLatest {
-//                    Timber.tag("network status").d(it.toString())
-//                    Log.i(TAG, "AAA mainActibity - network status")
-//                    navigationViewModel.onReplaceCommandClick(main())
-//                }
-//            }
-//        }
+    fun checkInternet(){
+
+        lifecycleScope.launchWhenCreated{
+            networkConnectionManager.isNetworkConnectedFlow
+                .collectLatest{
+                    delay(1000)
+                    Timber.tag("network status").d(it.toString())
+                    if (it){
+                        navigationViewModel.onForwardCommandClick(main())
+                    } else {
+                        Snackbar.make(
+                            binding.clRoot,
+                            R.string.network_error_text,
+                            Snackbar.LENGTH_LONG
+                        )
+                            .setBackgroundTint(R.drawable.background_snack_bar_gradient)
+                            .show()
+                    }
+                }
+        }
     }
 
     override fun onResumeFragments() {
