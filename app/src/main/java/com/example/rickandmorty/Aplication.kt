@@ -2,9 +2,6 @@ package com.example.rickandmorty
 
 import android.app.Application
 import android.content.Context
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.os.Build
-import androidx.viewbinding.BuildConfig
 import com.example.rickandmorty.utils.NetworkConnectionManager
 import com.example.rickandmorty.utils.Preferences
 import dagger.hilt.android.HiltAndroidApp
