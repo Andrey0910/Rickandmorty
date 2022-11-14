@@ -24,7 +24,9 @@ class Application : Application() {
 
         appContext = applicationContext
 
-        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
 
         Preferences.with(this)
     }

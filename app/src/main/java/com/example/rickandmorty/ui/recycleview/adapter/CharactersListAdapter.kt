@@ -66,6 +66,9 @@ class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -
     ) : BaseViewHolder<ItemCharactersListBinding, CharactersListDataModel>(binding) {
 
         init {
+            binding.iconFavorite.setOnClickListener {
+                Timber.tag("AAA").d("iconFavorite.setOnClickListener===========")
+            }
             binding.root.setOnClickListener {
                 if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 onItemClick(item)
