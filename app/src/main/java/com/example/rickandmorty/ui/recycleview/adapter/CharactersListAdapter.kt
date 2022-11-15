@@ -11,12 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.ItemCharactersListBinding
+import com.example.rickandmorty.ui.model.request_view_model.CharactersListViewModel
 import com.example.rickandmorty.ui.recycleview.core.BaseItem
 import com.example.rickandmorty.ui.recycleview.core.BaseViewHolder
 import com.example.rickandmorty.ui.recycleview.core.Item
 import com.example.rickandmorty.ui.recycleview.model.CharactersListDataModel
 import com.example.rickandmorty.utils.Constants.STATUS_ALIVE
 import com.example.rickandmorty.utils.Constants.STATUS_DEAD
+import com.example.rickandmorty.utils.Preferences
 import com.example.rickandmorty.utils.common.extensions.setCustomText
 import timber.log.Timber
 
@@ -66,9 +68,19 @@ class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -
     ) : BaseViewHolder<ItemCharactersListBinding, CharactersListDataModel>(binding) {
 
         init {
+
             binding.iconFavorite.setOnClickListener {
-                Timber.tag("AAA").d("iconFavorite.setOnClickListener===========")
+                with(binding) {
+                    if (item.favorite) {
+                        iconFavorite.setImageResource(R.drawable.ic_favorite_black)
+                        updateShareData(item, false)
+                    } else {
+                        iconFavorite.setImageResource(R.drawable.ic_favorite)
+                        updateShareData(item, true)
+                    }
+                }
             }
+
             binding.root.setOnClickListener {
                 if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 onItemClick(item)
@@ -77,9 +89,18 @@ class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -
 
         override fun onBind(item: CharactersListDataModel) {
             super.onBind(item)
+            Timber.tag("onBind").i("1=======")
+
+            val sharedData: ArrayList<CharactersListDataModel>? = Preferences.get("ALL_CHARACTERS_DATA")
+            var itemFavotite = item.favorite
+
+            if (!sharedData.isNullOrEmpty()) {
+                sharedData.forEach {
+                    if (it.id == item.id) itemFavotite = it.favorite
+                }
+            }
 
             with(binding) {
-                Timber.tag(TAG).i("==========" + titleLogo.context.getString(R.string.card_title_species_text))
                 titleLogo.text = item.name
                 speciesText.setCustomText(R.string.card_title_species_text, item.species)
                 statusText.setCustomText(R.string.card_title_status_text, item.status)
@@ -88,7 +109,7 @@ class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -
                     .load(Uri.parse(item.image))
                     .into(imageLogo)
 
-                if (item.favorite) {
+                if (itemFavotite) {
                     iconFavorite.setImageResource(R.drawable.ic_favorite)
                 } else {
                     iconFavorite.setImageResource(R.drawable.ic_favorite_black)
@@ -108,14 +129,39 @@ class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -
 
         override fun onBind(item: CharactersListDataModel, payloads: List<Any>) {
             super.onBind(item, payloads)
+            Timber.tag("onBind").i("2=======")
+
+            val sharedData: ArrayList<CharactersListDataModel>? = Preferences.get("ALL_CHARACTERS_DATA")
+            var itemFavotite = item.favorite
+
+            if (!sharedData.isNullOrEmpty()) {
+                sharedData.forEach {
+                    if (it.id == item.id) itemFavotite = it.favorite
+                }
+            }
 
             with(binding) {
 
-                if (item.favorite) {
+                if (itemFavotite) {
                     iconFavorite.setImageResource(R.drawable.ic_favorite)
                 } else {
                     iconFavorite.setImageResource(R.drawable.ic_favorite_black)
                 }
+            }
+        }
+
+        private fun updateShareData(item: CharactersListDataModel, value: Boolean) {
+
+            val sharedData: ArrayList<CharactersListDataModel>? = Preferences.get("ALL_CHARACTERS_DATA")
+
+            if (!sharedData.isNullOrEmpty()) {
+                sharedData.forEachIndexed { index, id ->
+                    if (id.id == item.id) {
+                        sharedData[index] = item.copy(favorite = value)
+                    }
+                }
+
+                Preferences.put(sharedData, "ALL_CHARACTERS_DATA")
             }
         }
     }

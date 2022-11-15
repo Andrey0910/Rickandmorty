@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,10 +45,10 @@ class CharactersListViewModel @Inject constructor(
 
     init {
         if (!sharedData.isNullOrEmpty()) {
-            Log.i(TAG, "AAA CharactersListViewModel - init1")
+            Timber.tag(TAG).i("AAA CharactersListViewModel - init1")
             charactersList()
         } else {
-            Log.i(TAG, "AAA CharactersListViewModel - init2")
+            Timber.tag(TAG).i("AAA CharactersListViewModel - init2")
             viewModelScope.launch {
                 stateLoading.value = SingleEvent(true)
                 delay(500)
@@ -57,7 +58,7 @@ class CharactersListViewModel @Inject constructor(
     }
 
     private fun charactersList() {
-        Log.i(TAG, "AAA CharactersListViewModel - charactersList")
+        Timber.tag(TAG).i("AAA CharactersListViewModel - charactersList")
         viewModelScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
                 repository.getCharacters().collect { values ->
@@ -69,7 +70,7 @@ class CharactersListViewModel @Inject constructor(
                 when (response.value as NetworkResult) {
 
                     is NetworkResult.Success<*> -> {
-                        Log.i(TAG, "AAA CharactersListViewModel - charactersList - Success")
+                        Timber.tag(TAG).i("AAA CharactersListViewModel - charactersList - Success")
                         response.value?.let {
 
                             data.clear()
@@ -99,7 +100,8 @@ class CharactersListViewModel @Inject constructor(
                             }
                             adapterData.value = data
                             Preferences.put(data, "ALL_CHARACTERS_DATA")
-                            Log.i(TAG, "AAA CharactersListViewModel - charactersList - Preferences.put")
+                            Timber.tag(TAG)
+                                .i("AAA CharactersListViewModel - charactersList - Preferences.put")
                             stateSuccess.value = SingleEvent(true)
                         }
                     }
@@ -122,53 +124,8 @@ class CharactersListViewModel @Inject constructor(
         }
     }
 
-    private fun updateRecycler() {
-        Log.i(TAG, "AAA CharactersListViewModel - updateRecycler")
-        sharedData = Preferences.get("ALL_CHARACTERS_DATA")
-
-        val convertSharedData = arrayListOf<Item>()
-        sharedData.let {
-            it?.forEach { value ->
-                convertSharedData.add(
-                    CharactersListDataModel(
-                        id = value.id,
-                        name = value.name,
-                        status = value.status,
-                        species = value.species,
-                        type = value.type,
-                        gender = value.gender,
-                        image = value.image,
-                        favorite = value.favorite,
-                        name_location = value.name_location
-                    )
-                )
-            }
-        }
-
-        adapterData.value = convertSharedData
-    }
-
-    private fun updateShareData(item: CharactersListDataModel) {
-        Log.i(TAG, "AAA CharactersListViewModel - updateRecycler")
-        sharedData = Preferences.get("ALL_CHARACTERS_DATA")
-
-        if (!sharedData.isNullOrEmpty()) {
-            sharedData?.forEachIndexed { index, id ->
-                id.takeIf { it.id == item.id }.let {
-                    sharedData?.let {
-                        it[index] = item.copy(favorite = true)
-                    }
-                }
-            }
-
-            Preferences.put(sharedData, "ALL_CHARACTERS_DATA")
-
-            updateRecycler()
-        }
-    }
-
     fun updateCharactersList() {
-        Log.i(TAG, "AAA CharactersListViewModel - updateCharactersList")
+        Timber.tag(TAG).i("AAA CharactersListViewModel - updateCharactersList")
         stateLoading.value = SingleEvent(true)
         charactersList()
     }
