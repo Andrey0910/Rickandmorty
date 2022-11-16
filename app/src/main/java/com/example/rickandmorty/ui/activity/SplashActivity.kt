@@ -1,11 +1,7 @@
 package com.example.rickandmorty.ui.activity
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
-import android.nfc.Tag
 import android.os.Bundle
-import android.util.Log
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -18,8 +14,6 @@ import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import timber.log.Timber
 import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
@@ -50,8 +44,6 @@ class SplashActivity : AppCompatActivity() {
         setContentView(view)
 
         lifecycleScope.launchWhenCreated {
-            Timber.tag("splashActivity").d("===========")
-            delay(1000)
             navigationViewModel.onReplaceCommandClick(start())
         }
 

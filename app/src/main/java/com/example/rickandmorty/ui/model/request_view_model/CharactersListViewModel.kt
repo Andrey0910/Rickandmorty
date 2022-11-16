@@ -1,7 +1,5 @@
 package com.example.rickandmorty.ui.model.request_view_model
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.rickandmorty.Application
 import com.example.rickandmorty.data.api.Repository
@@ -13,7 +11,6 @@ import com.example.rickandmorty.utils.Preferences
 import com.example.rickandmorty.utils.SingleEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -45,20 +42,16 @@ class CharactersListViewModel @Inject constructor(
 
     init {
         if (!sharedData.isNullOrEmpty()) {
-            Timber.tag(TAG).i("AAA CharactersListViewModel - init1")
             charactersList()
         } else {
-            Timber.tag(TAG).i("AAA CharactersListViewModel - init2")
             viewModelScope.launch {
                 stateLoading.value = SingleEvent(true)
-                delay(500)
                 charactersList()
             }
         }
     }
 
     private fun charactersList() {
-        Timber.tag(TAG).i("AAA CharactersListViewModel - charactersList")
         viewModelScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
                 repository.getCharacters().collect { values ->
@@ -70,7 +63,6 @@ class CharactersListViewModel @Inject constructor(
                 when (response.value as NetworkResult) {
 
                     is NetworkResult.Success<*> -> {
-                        Timber.tag(TAG).i("AAA CharactersListViewModel - charactersList - Success")
                         response.value?.let {
 
                             data.clear()
@@ -100,8 +92,6 @@ class CharactersListViewModel @Inject constructor(
                             }
                             adapterData.value = data
                             Preferences.put(data, "ALL_CHARACTERS_DATA")
-                            Timber.tag(TAG)
-                                .i("AAA CharactersListViewModel - charactersList - Preferences.put")
                             stateSuccess.value = SingleEvent(true)
                         }
                     }
@@ -125,7 +115,6 @@ class CharactersListViewModel @Inject constructor(
     }
 
     fun updateCharactersList() {
-        Timber.tag(TAG).i("AAA CharactersListViewModel - updateCharactersList")
         stateLoading.value = SingleEvent(true)
         charactersList()
     }

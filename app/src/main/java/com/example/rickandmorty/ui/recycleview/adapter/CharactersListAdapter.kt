@@ -1,8 +1,6 @@
 package com.example.rickandmorty.ui.recycleview.adapter
 
-import android.content.ContentValues.TAG
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -11,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.ItemCharactersListBinding
-import com.example.rickandmorty.ui.model.request_view_model.CharactersListViewModel
 import com.example.rickandmorty.ui.recycleview.core.BaseItem
 import com.example.rickandmorty.ui.recycleview.core.BaseViewHolder
 import com.example.rickandmorty.ui.recycleview.core.Item
@@ -71,7 +68,7 @@ class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -
 
             binding.iconFavorite.setOnClickListener {
                 with(binding) {
-                    if (item.favorite) {
+                    if (getFavorite(item)) {
                         iconFavorite.setImageResource(R.drawable.ic_favorite_black)
                         updateShareData(item, false)
                     } else {
@@ -89,7 +86,6 @@ class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -
 
         override fun onBind(item: CharactersListDataModel) {
             super.onBind(item)
-            Timber.tag("onBind").i("1=======")
 
             val sharedData: ArrayList<CharactersListDataModel>? = Preferences.get("ALL_CHARACTERS_DATA")
             var itemFavotite = item.favorite
@@ -129,7 +125,6 @@ class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -
 
         override fun onBind(item: CharactersListDataModel, payloads: List<Any>) {
             super.onBind(item, payloads)
-            Timber.tag("onBind").i("2=======")
 
             val sharedData: ArrayList<CharactersListDataModel>? = Preferences.get("ALL_CHARACTERS_DATA")
             var itemFavotite = item.favorite
@@ -141,7 +136,6 @@ class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -
             }
 
             with(binding) {
-
                 if (itemFavotite) {
                     iconFavorite.setImageResource(R.drawable.ic_favorite)
                 } else {
@@ -163,6 +157,21 @@ class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -
 
                 Preferences.put(sharedData, "ALL_CHARACTERS_DATA")
             }
+        }
+
+        private fun getFavorite(item: CharactersListDataModel): Boolean {
+
+            var isFavorite = false
+            val sharedData: ArrayList<CharactersListDataModel>? = Preferences.get("ALL_CHARACTERS_DATA")
+
+            if (!sharedData.isNullOrEmpty()) {
+                sharedData.forEachIndexed { index, id ->
+                    if (id.id == item.id) {
+                        isFavorite = sharedData[index].favorite
+                    }
+                }
+            }
+            return isFavorite
         }
     }
 

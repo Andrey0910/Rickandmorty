@@ -1,13 +1,9 @@
 package com.example.rickandmorty.ui.activity
 
-import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.ActivityMainBinding
 import com.example.rickandmorty.ui.model.app_view_model.NavigationViewModel
@@ -54,6 +50,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         checkInternet()
+
+        navigationViewModel.onForwardCommandClick(main())
     }
 
     fun checkInternet(){
@@ -61,11 +59,8 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launchWhenCreated{
             networkConnectionManager.isNetworkConnectedFlow
                 .collectLatest{
-                    delay(1000)
-                    Timber.tag("network status").d(it.toString())
-                    if (it){
-                        navigationViewModel.onForwardCommandClick(main())
-                    } else {
+                    if (!it){
+                        delay(1000)
                         Snackbar.make(
                             binding.clRoot,
                             R.string.network_error_text,
