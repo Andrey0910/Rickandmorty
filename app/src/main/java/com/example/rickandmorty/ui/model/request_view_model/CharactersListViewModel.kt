@@ -11,6 +11,7 @@ import com.example.rickandmorty.utils.Preferences
 import com.example.rickandmorty.utils.SingleEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -46,6 +47,7 @@ class CharactersListViewModel @Inject constructor(
         } else {
             viewModelScope.launch {
                 stateLoading.value = SingleEvent(true)
+                delay(500)
                 charactersList()
             }
         }

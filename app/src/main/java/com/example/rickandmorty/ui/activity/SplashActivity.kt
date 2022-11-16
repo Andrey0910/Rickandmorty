@@ -14,6 +14,7 @@ import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
@@ -44,6 +45,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(view)
 
         lifecycleScope.launchWhenCreated {
+            delay(3000)
             navigationViewModel.onReplaceCommandClick(start())
         }
 
