@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import com.example.rickandmorty.databinding.ItemSnackBarBinding
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -38,9 +39,15 @@ fun View.showCustomSnackBar(text: String, imjRes: Int, res: Int, duration: Int =
     binding.imNotInternet.setImageDrawable(context.returnDrawable(imjRes))
     binding.clNotInternet.background = context.returnDrawable(res)
     snackBar.view.setBackgroundColor(Color.TRANSPARENT)
+
     val snackBarLayout = snackBar.view as Snackbar.SnackbarLayout
     snackBarLayout.setPadding(0, 0, 0, 0)
     snackBarLayout.addView(binding.root, 0)
+
+    val snackBarParams = snackBar.view.layoutParams as (FrameLayout.LayoutParams)
+    snackBarParams.setMargins(16, 0, 16, 24) // depending on the design requirements
+    snackBar.view.layoutParams = snackBarParams
+
     snackBar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
     snackBar.show()
     return snackBar

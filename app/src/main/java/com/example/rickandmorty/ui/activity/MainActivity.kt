@@ -70,12 +70,11 @@ class MainActivity : AppCompatActivity() {
                     if (!it) {
                         delay(1000)
 
-                        val snackbar = binding.root.showCustomSnackBar(
+                        binding.root.showCustomSnackBar(
                             getString(R.string.network_error_text),
                             R.drawable.ic_not_internet,
                             R.drawable.background_snack_bar_gradient
                         )
-                        snackbar.show()
                     }
                 }
         }

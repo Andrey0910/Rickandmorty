@@ -82,10 +82,6 @@ class MainFragment : Fragment(), BackButtonListener {
             }
         }
 
-        charactersListViewModel.adapterDataView.observe(viewLifecycleOwner) {
-            adapter.submitList(it.toList())
-        }
-
         // принудительное обновление списка адаптера
         binding.swipeRefresh.setOnRefreshListener {
             charactersListViewModel.updateCharactersList()

@@ -52,6 +52,8 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:overScrollMode="never"
+                setAdapter="@{adapter}"
+                submitList="@{charactersListViewModel.adapterDataView}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="3"
                 tools:listitem="@layout/item_characters_list"/>
