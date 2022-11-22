@@ -101,7 +101,7 @@ class MainFragment : Fragment(), BackButtonListener {
                     LinearLayoutManager::class.java.cast(recyclerView.layoutManager)
                 val totalItemCount = layoutManager?.itemCount ?: 0
                 val lastVisible = layoutManager?.findLastVisibleItemPosition() ?: 0
-                val endHasBeenReached = lastVisible + 5 >= totalItemCount
+                val endHasBeenReached = lastVisible + 5 > totalItemCount
                 if (totalItemCount > 0 && endHasBeenReached) {
                     charactersListViewModel.charactersListLoadMore()
                 }

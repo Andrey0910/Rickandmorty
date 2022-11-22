@@ -1,5 +1,6 @@
 package com.example.rickandmorty.ui.recycleview.adapter
 
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,6 +8,13 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.ItemCharactersListBinding
 import com.example.rickandmorty.ui.recycleview.core.BaseItem
@@ -17,6 +25,7 @@ import com.example.rickandmorty.utils.Constants.STATUS_ALIVE
 import com.example.rickandmorty.utils.Constants.STATUS_DEAD
 import com.example.rickandmorty.utils.Preferences
 import com.example.rickandmorty.utils.common.extensions.setCustomText
+import com.google.android.material.imageview.ShapeableImageView
 import timber.log.Timber
 
 class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -> Unit) :
@@ -96,14 +105,29 @@ class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -
                 }
             }
 
+
             with(binding) {
                 titleLogo.text = item.name
                 speciesText.setCustomText(R.string.card_title_species_text, item.species)
                 statusText.setCustomText(R.string.card_title_status_text, item.status)
 
-                Glide.with(imageLogo.context)
-                    .load(Uri.parse(item.image))
-                    .into(imageLogo)
+                loadGlide(item.image, imageLogo)
+
+//                val factory = DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
+//                val requestBuilder: RequestBuilder<Drawable> = Glide.with(binding.imageLogo.context)
+//                    .asDrawable().sizeMultiplier(0.1f)
+//
+//                Glide.with(imageLogo.context)
+//                    .load(Uri.parse(item.image))
+//                    .transition(DrawableTransitionOptions.withCrossFade(factory))
+//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                    .thumbnail(requestBuilder)
+//                    .apply(
+//                        RequestOptions()
+//                            .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+//                            .format(DecodeFormat.PREFER_RGB_565)
+//                    )
+//                    .into(imageLogo)
 
                 if (itemFavotite) {
                     iconFavorite.setImageResource(R.drawable.ic_favorite)
@@ -172,6 +196,25 @@ class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -
                 }
             }
             return isFavorite
+        }
+
+        private fun loadGlide(image: Any, view: ShapeableImageView) {
+//            val factory = DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
+//            val requestBuilder: RequestBuilder<Drawable> = Glide.with(binding.imageLogo.context)
+//                .asDrawable().sizeMultiplier(0.1f)
+            Glide.with(binding.imageLogo.context)
+                .load(
+                    image
+                )
+//                .transition(DrawableTransitionOptions.withCrossFade(factory))
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                .thumbnail(requestBuilder)
+//                .apply(
+//                    RequestOptions()
+//                        .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+//                        .format(DecodeFormat.PREFER_RGB_565)
+//                )
+                .into(view)
         }
     }
 
