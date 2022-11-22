@@ -41,6 +41,9 @@ class CharactersListViewModel @Inject constructor(
     private var sharedData: ArrayList<CharactersListDataModel>? =
         Preferences.get("ALL_CHARACTERS_DATA")
 
+    private var nextPage = 1
+    private var allPages = 1
+
     init {
         if (!sharedData.isNullOrEmpty()) {
             charactersList()
@@ -69,6 +72,10 @@ class CharactersListViewModel @Inject constructor(
 
                             data.clear()
 
+                            it.data?.info?.let { value ->
+                                allPages = value.count
+                            }
+
                             it.data?.results?.forEach { item ->
 
                                 var isFavorite = false
@@ -94,6 +101,7 @@ class CharactersListViewModel @Inject constructor(
                             }
                             adapterData.value = data
                             Preferences.put(data, "ALL_CHARACTERS_DATA")
+                            nextPage++
                             stateSuccess.value = SingleEvent(true)
                         }
                     }
@@ -110,6 +118,74 @@ class CharactersListViewModel @Inject constructor(
                     }
                     is NetworkResult.Loading<*> -> {
 
+                    }
+                }
+            }
+        }
+    }
+
+    fun charactersListLoadMore(){
+        if (allPages >= nextPage) {
+            viewModelScope.launch(Dispatchers.IO) {
+                withContext(Dispatchers.Main) {
+                    repository.getCharactersLoadMore(nextPage).collect { values ->
+                        response.value = values
+                    }
+
+                    sharedData = Preferences.get("ALL_CHARACTERS_DATA")
+
+                    when (response.value as NetworkResult) {
+
+                        is NetworkResult.Success<*> -> {
+                            response.value?.let {
+
+                                it.data?.info?.let { value ->
+                                    allPages = value.count
+                                }
+
+                                it.data?.results?.forEach { item ->
+
+                                    var isFavorite = false
+
+                                    sharedData?.filter { value -> value.id == item.id }
+                                        ?.map { mapValue ->
+                                            isFavorite = mapValue.favorite
+                                        }
+
+                                    data.add(
+                                        CharactersListDataModel(
+                                            id = item.id,
+                                            name = item.name,
+                                            status = item.status,
+                                            species = item.species,
+                                            type = item.type,
+                                            gender = item.gender,
+                                            image = item.image,
+                                            favorite = isFavorite,
+                                            name_location = item.location.name
+                                        )
+                                    )
+                                }
+                                adapterData.value = data
+                                Preferences.put(data, "ALL_CHARACTERS_DATA")
+                                nextPage++
+                                stateSuccess.value = SingleEvent(true)
+                            }
+                        }
+                        is NetworkResult.Error<*> -> {
+
+                            response.value?.let {
+                                when (it.message.toString()) {
+
+                                    else -> {
+                                        stateError.value = "Response error"
+                                    }
+                                }
+                            }
+                        }
+                        is NetworkResult.Loading<*> -> {
+
+                        }
                     }
                 }
             }

@@ -23,6 +23,12 @@ class Repository @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun getCharactersLoadMore(page: Int): Flow<NetworkResult<CharactersList>> {
+        return flow {
+            emit(safeApiColl { remoteDataSource.getCharactersLoadMore(page) })
+        }.flowOn(Dispatchers.IO)
+    }
+
     suspend fun getLocations(): Flow<NetworkResult<LocationsList>>{
         return flow {
             emit(safeApiColl { remoteDataSource.getLocations() })

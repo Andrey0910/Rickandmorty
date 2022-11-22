@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.R
 import com.example.rickandmorty.databinding.FragmentMainBinding
 import com.example.rickandmorty.ui.model.app_view_model.NavigationViewModel
@@ -23,6 +25,7 @@ import com.example.rickandmorty.utils.common.extensions.px
 import com.example.rickandmorty.utils.nullOnDestroy
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.rickandmorty.utils.cicerone.Screens.characterItem
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainFragment : Fragment(), BackButtonListener {
@@ -95,6 +98,19 @@ class MainFragment : Fragment(), BackButtonListener {
         scrollViewModel.recycleItemPositionView.observe(viewLifecycleOwner) {
             binding.recycler.layoutManager?.onRestoreInstanceState(it)
         }
+
+        binding.recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val layoutManager =
+                    LinearLayoutManager::class.java.cast(recyclerView.layoutManager)
+                val totalItemCount = layoutManager?.itemCount ?: 0
+                val lastVisible = layoutManager?.findLastVisibleItemPosition() ?: 0
+                val endHasBeenReached = lastVisible + 5 >= totalItemCount
+                if (totalItemCount > 0 && endHasBeenReached) {
+                    charactersListViewModel.charactersListLoadMore()
+                }
+            }
+        })
     }
 
     private fun onCharactersClick(newItem: CharactersListDataModel) {
