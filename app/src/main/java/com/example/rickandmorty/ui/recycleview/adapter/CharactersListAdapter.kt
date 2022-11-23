@@ -4,7 +4,10 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.core.text.PrecomputedTextCompat
+import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -113,22 +116,6 @@ class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -
 
                 loadGlide(item.image, imageLogo)
 
-//                val factory = DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
-//                val requestBuilder: RequestBuilder<Drawable> = Glide.with(binding.imageLogo.context)
-//                    .asDrawable().sizeMultiplier(0.1f)
-//
-//                Glide.with(imageLogo.context)
-//                    .load(Uri.parse(item.image))
-//                    .transition(DrawableTransitionOptions.withCrossFade(factory))
-//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                    .thumbnail(requestBuilder)
-//                    .apply(
-//                        RequestOptions()
-//                            .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-//                            .format(DecodeFormat.PREFER_RGB_565)
-//                    )
-//                    .into(imageLogo)
-
                 if (itemFavotite) {
                     iconFavorite.setImageResource(R.drawable.ic_favorite)
                 } else {
@@ -199,23 +186,33 @@ class CharactersListAdapter(private val onItemClick: (CharactersListDataModel) -
         }
 
         private fun loadGlide(image: Any, view: ShapeableImageView) {
-//            val factory = DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
-//            val requestBuilder: RequestBuilder<Drawable> = Glide.with(binding.imageLogo.context)
-//                .asDrawable().sizeMultiplier(0.1f)
+            val factory = DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
+            val requestBuilder: RequestBuilder<Drawable> = Glide.with(binding.imageLogo.context)
+                .asDrawable().sizeMultiplier(0.1f)
             Glide.with(binding.imageLogo.context)
                 .load(
                     image
                 )
-//                .transition(DrawableTransitionOptions.withCrossFade(factory))
-//                .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                .thumbnail(requestBuilder)
-//                .apply(
-//                    RequestOptions()
-//                        .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-//                        .format(DecodeFormat.PREFER_RGB_565)
-//                )
+                .placeholder(R.drawable.ic_not_internet)
+                .transition(DrawableTransitionOptions.withCrossFade(factory))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .thumbnail(requestBuilder)
+                .apply(
+                    RequestOptions()
+                        .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                        .format(DecodeFormat.PREFER_RGB_565)
+                )
                 .into(view)
         }
     }
 
+}
+
+private fun AppCompatTextView.futureText(text: String) {
+    setTextFuture(
+        PrecomputedTextCompat.getTextFuture(
+            text,
+            TextViewCompat.getTextMetricsParams(this),
+            /*optional custom executor*/ null)
+    )
 }

@@ -61,6 +61,9 @@ class MainFragment : Fragment(), BackButtonListener {
         val adapter = BaseAdapter(listOf(CharactersListAdapter(::onCharactersClick)))
 
         lifecycleScope.launchWhenCreated {
+            binding.recycler.setHasFixedSize(true)
+            binding.recycler.layoutManager?.isItemPrefetchEnabled = true
+            binding.recycler.setItemViewCacheSize(-1)
             binding.recycler.adapter = adapter
             binding.recycler.addItemDecoration(
                 GroupVerticalItemDecoration(
