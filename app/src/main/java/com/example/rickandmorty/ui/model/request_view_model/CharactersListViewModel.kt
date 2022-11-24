@@ -196,4 +196,36 @@ class CharactersListViewModel @Inject constructor(
         charactersList()
     }
 
+    fun updateShareData(item: CharactersListDataModel, value: Boolean) {
+        Timber.tag("RRR").i("updateShareData====%s", value)
+        val favoritSharedData: ArrayList<CharactersListDataModel>? =
+            Preferences.get("ALL_CHARACTERS_DATA")
+
+        if (!favoritSharedData.isNullOrEmpty()) {
+            favoritSharedData.forEachIndexed { index, id ->
+                if (id.id == item.id) {
+                    favoritSharedData[index] = item.copy(favorite = value)
+                }
+            }
+
+            Preferences.put(favoritSharedData, "ALL_CHARACTERS_DATA")
+        }
+    }
+
+    private fun getFavorite(item: CharactersListDataModel): Boolean {
+
+        var isFavorite = false
+        val sharedData: ArrayList<CharactersListDataModel>? =
+            Preferences.get("ALL_CHARACTERS_DATA")
+
+        if (!sharedData.isNullOrEmpty()) {
+            sharedData.forEachIndexed { index, id ->
+                if (id.id == item.id) {
+                    isFavorite = sharedData[index].favorite
+                }
+            }
+        }
+        return isFavorite
+    }
+
 }

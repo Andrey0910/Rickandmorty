@@ -58,7 +58,11 @@ class MainFragment : Fragment(), BackButtonListener {
         super.onViewCreated(view, savedInstanceState)
         binding.recycler.insetterRecyclerBottom()
 
-        val adapter = BaseAdapter(listOf(CharactersListAdapter(::onCharactersClick)))
+        val adapter = BaseAdapter(
+            listOf(
+                CharactersListAdapter(::onCharactersClick, ::onFavoriteClick)
+            )
+        )
 
         lifecycleScope.launchWhenCreated {
             binding.recycler.setHasFixedSize(true)
@@ -127,6 +131,12 @@ class MainFragment : Fragment(), BackButtonListener {
                 )
             )
         )
+    }
+
+    private fun onFavoriteClick(newItem: CharactersListDataModel) {
+        Timber.tag("RRR").i("onFavoriteClick===========")
+        charactersListViewModel.updateShareData(newItem, !newItem.favorite)
+
     }
 
     override fun onBackPressed(): Boolean {
