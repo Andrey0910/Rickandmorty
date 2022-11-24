@@ -101,15 +101,17 @@ class CharactersListAdapter(
 
             binding.iconFavorite.setOnClickListener {
                 if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
-                onFavoriteClick(item)
 
-                if (item.favorite) {
-                    Timber.tag("RRR").i("!item.favorite=====")
+
+                if (!item.favorite) {
+                    Timber.tag("RRR").i("!item.favorite=====%s", item.favorite)
                     binding.iconFavorite.setImageResource(R.drawable.ic_favorite)
                 } else {
-                    Timber.tag("RRR").i("======item.favorite=====")
+                    Timber.tag("RRR").i("======item.favorite=====%s", item.favorite)
                     binding.iconFavorite.setImageResource(R.drawable.ic_favorite_black)
                 }
+
+                onFavoriteClick(item)
             }
         }
 
@@ -133,11 +135,11 @@ class CharactersListAdapter(
 
 //                loadGlide(item.image, imageLogo)
 
-//                if (itemFavotite) {
-//                    iconFavorite.setImageResource(R.drawable.ic_favorite)
-//                } else {
-//                    iconFavorite.setImageResource(R.drawable.ic_favorite_black)
-//                }
+                if (item.favorite) {
+                    iconFavorite.setImageResource(R.drawable.ic_favorite)
+                } else {
+                    iconFavorite.setImageResource(R.drawable.ic_favorite_black)
+                }
 
                 imgStatus.imageTintList =
                     ContextCompat.getColorStateList(
@@ -163,13 +165,13 @@ class CharactersListAdapter(
 //                }
 //            }
 
-//            with(binding) {
-//                if (itemFavotite) {
-//                    iconFavorite.setImageResource(R.drawable.ic_favorite)
-//                } else {
-//                    iconFavorite.setImageResource(R.drawable.ic_favorite_black)
-//                }
-//            }
+            with(binding) {
+                if (item.favorite) {
+                    iconFavorite.setImageResource(R.drawable.ic_favorite)
+                } else {
+                    iconFavorite.setImageResource(R.drawable.ic_favorite_black)
+                }
+            }
         }
 
 //        private fun updateShareData(item: CharactersListDataModel, value: Boolean) {

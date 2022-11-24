@@ -134,7 +134,7 @@ class MainFragment : Fragment(), BackButtonListener {
     }
 
     private fun onFavoriteClick(newItem: CharactersListDataModel) {
-        Timber.tag("RRR").i("onFavoriteClick===========")
+        Timber.tag("RRR").i("onFavoriteClick===========%s", newItem.favorite)
         charactersListViewModel.updateShareData(newItem, !newItem.favorite)
 
     }

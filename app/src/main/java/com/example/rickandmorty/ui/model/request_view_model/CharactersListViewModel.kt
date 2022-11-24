@@ -197,35 +197,43 @@ class CharactersListViewModel @Inject constructor(
     }
 
     fun updateShareData(item: CharactersListDataModel, value: Boolean) {
-        Timber.tag("RRR").i("updateShareData====%s", value)
-        val favoritSharedData: ArrayList<CharactersListDataModel>? =
-            Preferences.get("ALL_CHARACTERS_DATA")
 
-        if (!favoritSharedData.isNullOrEmpty()) {
-            favoritSharedData.forEachIndexed { index, id ->
-                if (id.id == item.id) {
-                    favoritSharedData[index] = item.copy(favorite = value)
-                }
-            }
-
-            Preferences.put(favoritSharedData, "ALL_CHARACTERS_DATA")
-        }
-    }
-
-    private fun getFavorite(item: CharactersListDataModel): Boolean {
-
-        var isFavorite = false
-        val sharedData: ArrayList<CharactersListDataModel>? =
-            Preferences.get("ALL_CHARACTERS_DATA")
+//        val favoriteSharedData: ArrayList<CharactersListDataModel>? =
+        sharedData = Preferences.get("ALL_CHARACTERS_DATA")
 
         if (!sharedData.isNullOrEmpty()) {
-            sharedData.forEachIndexed { index, id ->
-                if (id.id == item.id) {
-                    isFavorite = sharedData[index].favorite
+            sharedData?.forEachIndexed { index, id ->
+
+                id.takeIf { it.id ==item.id }?.let {
+                    sharedData?.let {
+                        Timber.tag("RRR").i("updateShareData====%s====%s", value, item.id)
+                        it[index] = item.copy(favorite = value)
+                    }
                 }
+
+//                if (id.id == item.id) {
+//                    favoriteSharedData[index] = item.copy(favorite = value)
+//                }
             }
+
+            Preferences.put(sharedData, "ALL_CHARACTERS_DATA")
         }
-        return isFavorite
     }
+
+//    private fun getFavorite(item: CharactersListDataModel): Boolean {
+//
+//        var isFavorite = false
+//        val sharedData: ArrayList<CharactersListDataModel>? =
+//            Preferences.get("ALL_CHARACTERS_DATA")
+//
+//        if (!sharedData.isNullOrEmpty()) {
+//            sharedData.forEachIndexed { index, id ->
+//                if (id.id == item.id) {
+//                    isFavorite = sharedData[index].favorite
+//                }
+//            }
+//        }
+//        return isFavorite
+//    }
 
 }
