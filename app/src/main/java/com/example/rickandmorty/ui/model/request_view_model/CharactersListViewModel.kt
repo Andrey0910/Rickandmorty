@@ -59,7 +59,7 @@ class CharactersListViewModel @Inject constructor(
     private fun charactersList() {
 
         viewModelScope.launch {
-
+            Timber.tag("RRR").i("charactersList==========")
             repository.getCharacters().collect { values ->
                 response.value = values
             }
@@ -209,6 +209,11 @@ class CharactersListViewModel @Inject constructor(
                         Timber.tag("RRR").i("updateShareData====%s====%s", value, item.id)
                         it[index] = item.copy(favorite = value)
                     }
+//                    adapterData.value?.let {
+//                        Timber.tag("RRR").i("updateShareData====%s====%s", value, item.id)
+//
+//                        it[index] = item.copy(favorite = value)
+//                    }
                 }
 
 //                if (id.id == item.id) {
@@ -217,6 +222,7 @@ class CharactersListViewModel @Inject constructor(
             }
 
             Preferences.put(sharedData, "ALL_CHARACTERS_DATA")
+            charactersList()
         }
     }
 

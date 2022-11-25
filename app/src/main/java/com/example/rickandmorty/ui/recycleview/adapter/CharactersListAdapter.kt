@@ -102,16 +102,17 @@ class CharactersListAdapter(
             binding.iconFavorite.setOnClickListener {
                 if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
 
+                val newItem = getNewFavorite(item)
 
-                if (!item.favorite) {
-                    Timber.tag("RRR").i("!item.favorite=====%s", item.favorite)
+                if (newItem.favorite) {
+                    Timber.tag("RRR").i("!item.favorite=====%s", newItem.favorite)
                     binding.iconFavorite.setImageResource(R.drawable.ic_favorite)
                 } else {
-                    Timber.tag("RRR").i("======item.favorite=====%s", item.favorite)
+                    Timber.tag("RRR").i("======item.favorite=====%s", newItem.favorite)
                     binding.iconFavorite.setImageResource(R.drawable.ic_favorite_black)
                 }
 
-                onFavoriteClick(item)
+                onFavoriteClick(newItem)
             }
         }
 
@@ -136,8 +137,10 @@ class CharactersListAdapter(
 //                loadGlide(item.image, imageLogo)
 
                 if (item.favorite) {
+                    Timber.tag("RRR").i("onBind1=====%s", item.favorite)
                     iconFavorite.setImageResource(R.drawable.ic_favorite)
                 } else {
+                    Timber.tag("RRR").i("onBind2=====%s", item.favorite)
                     iconFavorite.setImageResource(R.drawable.ic_favorite_black)
                 }
 
@@ -190,21 +193,20 @@ class CharactersListAdapter(
 //            }
 //        }
 //
-//        private fun getFavorite(item: CharactersListDataModel): Boolean {
-//
-//            var isFavorite = false
-//            val sharedData: ArrayList<CharactersListDataModel>? =
-//                Preferences.get("ALL_CHARACTERS_DATA")
-//
-//            if (!sharedData.isNullOrEmpty()) {
-//                sharedData.forEachIndexed { index, id ->
-//                    if (id.id == item.id) {
-//                        isFavorite = sharedData[index].favorite
-//                    }
-//                }
-//            }
-//            return isFavorite
-//        }
+        private fun getNewFavorite(item: CharactersListDataModel): CharactersListDataModel {
+
+            val sharedData: ArrayList<CharactersListDataModel>? =
+                Preferences.get("ALL_CHARACTERS_DATA")
+
+            if (!sharedData.isNullOrEmpty()) {
+                sharedData.forEachIndexed { index, id ->
+                    if (id.id == item.id) {
+                        return item.copy(favorite = !sharedData[index].favorite)
+                    }
+                }
+            }
+            return item
+        }
 
         private fun loadGlide(image: Any, view: ShapeableImageView) {
             val factory = DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
