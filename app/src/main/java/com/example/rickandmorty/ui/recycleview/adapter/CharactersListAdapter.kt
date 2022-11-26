@@ -81,19 +81,6 @@ class CharactersListAdapter(
     ) : BaseViewHolder<ItemCharactersListBinding, CharactersListDataModel>(binding) {
 
         init {
-
-//            binding.iconFavorite.setOnClickListener {
-//                with(binding) {
-//                    if (getFavorite(item)) {
-//                        iconFavorite.setImageResource(R.drawable.ic_favorite_black)
-//                        updateShareData(item, false)
-//                    } else {
-//                        iconFavorite.setImageResource(R.drawable.ic_favorite)
-//                        updateShareData(item, true)
-//                    }
-//                }
-//            }
-
             binding.root.setOnClickListener {
                 if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 onItemClick(item)
@@ -119,28 +106,18 @@ class CharactersListAdapter(
         override fun onBind(item: CharactersListDataModel) {
             super.onBind(item)
 
-//            val sharedData: ArrayList<CharactersListDataModel>? = Preferences.get("ALL_CHARACTERS_DATA")
-//            var itemFavotite = item.favorite
-//
-//            if (!sharedData.isNullOrEmpty()) {
-//                sharedData.forEach {
-//                    if (it.id == item.id) itemFavotite = it.favorite
-//                }
-//            }
-
-
             with(binding) {
                 titleLogo.text = item.name
                 speciesText.setCustomText(R.string.card_title_species_text, item.species)
                 statusText.setCustomText(R.string.card_title_status_text, item.status)
 
-//                loadGlide(item.image, imageLogo)
+                loadGlide(item.image, imageLogo)
 
                 if (item.favorite) {
-                    Timber.tag("RRR").i("onBind1=====%s", item.favorite)
+                    Timber.tag("RRR").i("onBind1===id==%s====favirite=====%s",item.id, item.favorite)
                     iconFavorite.setImageResource(R.drawable.ic_favorite)
                 } else {
-                    Timber.tag("RRR").i("onBind2=====%s", item.favorite)
+                    Timber.tag("RRR").i("onBind2===id==%s====favirite=====%s",item.id, item.favorite)
                     iconFavorite.setImageResource(R.drawable.ic_favorite_black)
                 }
 
@@ -159,15 +136,6 @@ class CharactersListAdapter(
         override fun onBind(item: CharactersListDataModel, payloads: List<Any>) {
             super.onBind(item, payloads)
 
-//            val sharedData: ArrayList<CharactersListDataModel>? = Preferences.get("ALL_CHARACTERS_DATA")
-//            var itemFavotite = item.favorite
-//
-//            if (!sharedData.isNullOrEmpty()) {
-//                sharedData.forEach {
-//                    if (it.id == item.id) itemFavotite = it.favorite
-//                }
-//            }
-
             with(binding) {
                 if (item.favorite) {
                     iconFavorite.setImageResource(R.drawable.ic_favorite)
@@ -177,22 +145,6 @@ class CharactersListAdapter(
             }
         }
 
-//        private fun updateShareData(item: CharactersListDataModel, value: Boolean) {
-//
-//            val sharedData: ArrayList<CharactersListDataModel>? =
-//                Preferences.get("ALL_CHARACTERS_DATA")
-//
-//            if (!sharedData.isNullOrEmpty()) {
-//                sharedData.forEachIndexed { index, id ->
-//                    if (id.id == item.id) {
-//                        sharedData[index] = item.copy(favorite = value)
-//                    }
-//                }
-//
-//                Preferences.put(sharedData, "ALL_CHARACTERS_DATA")
-//            }
-//        }
-//
         private fun getNewFavorite(item: CharactersListDataModel): CharactersListDataModel {
 
             val sharedData: ArrayList<CharactersListDataModel>? =

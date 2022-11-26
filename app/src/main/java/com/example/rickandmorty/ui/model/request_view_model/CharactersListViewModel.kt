@@ -197,8 +197,6 @@ class CharactersListViewModel @Inject constructor(
     }
 
     fun updateShareData(item: CharactersListDataModel, value: Boolean) {
-
-//        val favoriteSharedData: ArrayList<CharactersListDataModel>? =
         sharedData = Preferences.get("ALL_CHARACTERS_DATA")
 
         if (!sharedData.isNullOrEmpty()) {
@@ -209,37 +207,34 @@ class CharactersListViewModel @Inject constructor(
                         Timber.tag("RRR").i("updateShareData====%s====%s", value, item.id)
                         it[index] = item.copy(favorite = value)
                     }
-//                    adapterData.value?.let {
-//                        Timber.tag("RRR").i("updateShareData====%s====%s", value, item.id)
-//
-//                        it[index] = item.copy(favorite = value)
-//                    }
                 }
-
-//                if (id.id == item.id) {
-//                    favoriteSharedData[index] = item.copy(favorite = value)
-//                }
             }
 
             Preferences.put(sharedData, "ALL_CHARACTERS_DATA")
-            charactersList()
+//            charactersList()
+            updateAdapterData(item, value)
         }
     }
 
-//    private fun getFavorite(item: CharactersListDataModel): Boolean {
-//
-//        var isFavorite = false
-//        val sharedData: ArrayList<CharactersListDataModel>? =
-//            Preferences.get("ALL_CHARACTERS_DATA")
-//
-//        if (!sharedData.isNullOrEmpty()) {
-//            sharedData.forEachIndexed { index, id ->
-//                if (id.id == item.id) {
-//                    isFavorite = sharedData[index].favorite
-//                }
-//            }
-//        }
-//        return isFavorite
-//    }
+    fun updateAdapterData(item: CharactersListDataModel, isFavorite: Boolean) {
+        if (!adapterData.value.isNullOrEmpty()) {
+            adapterData.value?.forEachIndexed { index, id ->
+                (id as CharactersListDataModel).takeIf { it.id ==item.id }?.let {
+                    adapterData.value?.let {
+                        it[index] = item.copy(favorite = isFavorite)
+                        Timber.tag("RRR").i("updateAdapterData====%s====%s", isFavorite, it[index])
+                    }
+                }
+            }
+        }
+        adapterData.value?.forEach {
+            var elem = (it as CharactersListDataModel)
+            if (elem.id == item.id) {
+                Timber.tag("RRR").i("adapterData.value====%s====%s====%s", isFavorite, elem.id, elem.favorite)
+            }
+        }
+    }
+
+
 
 }
