@@ -57,10 +57,11 @@ class CharactersListAdapter(
             newItem: CharactersListDataModel
         ) = oldItem.id == newItem.id
 
+
         override fun areContentsTheSame(
             oldItem: CharactersListDataModel,
             newItem: CharactersListDataModel
-        ) = oldItem.id == newItem.id
+        ) = oldItem == newItem
 
         override fun getChangePayload(
             oldItem: CharactersListDataModel,
