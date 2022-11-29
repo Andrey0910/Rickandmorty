@@ -27,6 +27,7 @@ import com.example.rickandmorty.ui.recycleview.model.CharactersListDataModel
 import com.example.rickandmorty.utils.Constants.STATUS_ALIVE
 import com.example.rickandmorty.utils.Constants.STATUS_DEAD
 import com.example.rickandmorty.utils.Preferences
+import com.example.rickandmorty.utils.common.extensions.getCustomText
 import com.example.rickandmorty.utils.common.extensions.setCustomText
 import com.google.android.material.imageview.ShapeableImageView
 import timber.log.Timber
@@ -108,9 +109,13 @@ class CharactersListAdapter(
             super.onBind(item)
 
             with(binding) {
-                titleLogo.text = item.name
-                speciesText.setCustomText(R.string.card_title_species_text, item.species)
-                statusText.setCustomText(R.string.card_title_status_text, item.status)
+                titleLogo.futureText(item.name)
+                speciesText.getCustomText(R.string.card_title_species_text, item.species).also {
+                    speciesText.futureText(it)
+                }
+                statusText.getCustomText(R.string.card_title_status_text, item.status).also {
+                    statusText.futureText(it)
+                }
 
                 loadGlide(item.image, imageLogo)
 
@@ -184,6 +189,7 @@ class CharactersListAdapter(
 
 }
 
+// ускоряет загрузку текста в textview
 private fun AppCompatTextView.futureText(text: String) {
     setTextFuture(
         PrecomputedTextCompat.getTextFuture(
