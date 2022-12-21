@@ -83,7 +83,7 @@ class CharactersListAdapter(
     ) : BaseViewHolder<ItemCharactersListBinding, CharactersListDataModel>(binding) {
 
         init {
-            binding.root.setOnClickListener {
+            binding.clElementCard.setOnClickListener {
                 if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 onItemClick(item)
             }
@@ -91,17 +91,7 @@ class CharactersListAdapter(
             binding.iconFavorite.setOnClickListener {
                 if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
 
-                val newItem = getNewFavorite(item)
-
-                if (newItem.favorite) {
-                    Timber.tag("RRR").i("!item.favorite=====%s", newItem.favorite)
-                    binding.iconFavorite.setImageResource(R.drawable.ic_favorite)
-                } else {
-                    Timber.tag("RRR").i("======item.favorite=====%s", newItem.favorite)
-                    binding.iconFavorite.setImageResource(R.drawable.ic_favorite_black)
-                }
-
-                onFavoriteClick(newItem)
+                onFavoriteClick(item)
             }
         }
 
@@ -149,21 +139,6 @@ class CharactersListAdapter(
                     iconFavorite.setImageResource(R.drawable.ic_favorite_black)
                 }
             }
-        }
-
-        private fun getNewFavorite(item: CharactersListDataModel): CharactersListDataModel {
-
-            val sharedData: ArrayList<CharactersListDataModel>? =
-                Preferences.get("ALL_CHARACTERS_DATA")
-
-            if (!sharedData.isNullOrEmpty()) {
-                sharedData.forEachIndexed { index, id ->
-                    if (id.id == item.id) {
-                        return item.copy(favorite = !sharedData[index].favorite)
-                    }
-                }
-            }
-            return item
         }
 
         private fun loadGlide(image: Any, view: ShapeableImageView) {

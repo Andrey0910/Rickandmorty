@@ -197,7 +197,7 @@ class CharactersListViewModel @Inject constructor(
     }
 
     fun updateShareData(item: CharactersListDataModel, value: Boolean) {
-        sharedData = Preferences.get("ALL_CHARACTERS_DATA")
+//        sharedData = Preferences.get("ALL_CHARACTERS_DATA")
 
         if (!sharedData.isNullOrEmpty()) {
             sharedData?.forEachIndexed { index, id ->
@@ -211,30 +211,25 @@ class CharactersListViewModel @Inject constructor(
             }
 
             Preferences.put(sharedData, "ALL_CHARACTERS_DATA")
-//            charactersList()
-            updateAdapterData(item, value)
+
+            val tmpData = arrayListOf<Item>()
+            sharedData?.forEach { value ->
+                tmpData.add(
+                    CharactersListDataModel(
+                        id = value.id,
+                        name = value.name,
+                        status = value.status,
+                        species = value.species,
+                        type = value.type,
+                        gender = value.gender,
+                        image = value.image,
+                        favorite = value.favorite,
+                        name_location = value.name_location
+                    )
+                )
+            }
+
+            adapterData.value = tmpData
         }
     }
-
-    fun updateAdapterData(item: CharactersListDataModel, isFavorite: Boolean) {
-        if (!adapterData.value.isNullOrEmpty()) {
-            adapterData.value?.forEachIndexed { index, id ->
-                (id as CharactersListDataModel).takeIf { it.id ==item.id }?.let {
-                    adapterData.value?.let {
-                        it[index] = item.copy(favorite = isFavorite)
-                        Timber.tag("RRR").i("updateAdapterData====%s====%s", isFavorite, it[index])
-                    }
-                }
-            }
-        }
-        adapterData.value?.forEach {
-            var elem = (it as CharactersListDataModel)
-            if (elem.id == item.id) {
-                Timber.tag("RRR").i("adapterData.value====%s====%s====%s", isFavorite, elem.id, elem.favorite)
-            }
-        }
-    }
-
-
-
 }

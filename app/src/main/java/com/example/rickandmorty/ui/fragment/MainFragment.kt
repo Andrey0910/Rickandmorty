@@ -134,7 +134,7 @@ class MainFragment : Fragment(), BackButtonListener {
     }
 
     private fun onFavoriteClick(newItem: CharactersListDataModel) {
-        charactersListViewModel.updateShareData(newItem, newItem.favorite)
+        charactersListViewModel.updateShareData(newItem, !newItem.favorite)
     }
 
     override fun onBackPressed(): Boolean {
